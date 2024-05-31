@@ -1,0 +1,59 @@
+
+# Defining a function to display a welcome message.
+def display_welcome_message():
+    print("Welcome to the Personal Finance Tracker!")
+    print("This program helps you manage your finances.")
+
+# Defining a function to display the menu options.
+def display_menu():
+    print("\nMenu:")
+    print("1. Add an income")
+    print("2. Add an expense")
+    print("3. View financial summary")
+    print("4. Quit")
+
+# Defining a function to add an income to the list of incomes.
+def add_income(incomes):
+    amount = float(input("Enter the amount of income: "))
+    incomes.append(amount)
+    print("Income added successfully!")
+
+# Defining a function to add an expense to the list of expenses.
+def add_expense(expenses):
+    amount = float(input("Enter the amount of expense: "))
+    expenses.append(amount)
+    print("Expense added successfully!")
+
+# Calculating total income, total expenses, and remaining balance.
+def calculate_summary(incomes, expenses):
+    total_income = sum(incomes)
+    total_expenses = sum(expenses)
+    remaining_balance = total_income - total_expenses
+    return total_income, total_expenses, remaining_balance
+
+# Defining the main function to run the program.
+def run_program():
+    incomes = []
+    expenses = []
+
+    display_welcome_message()
+
+    while True:
+        display_menu()
+        user_choice = input("Enter your choice: ")
+
+        if user_choice == '1':
+            add_income(incomes)
+        elif user_choice == '2':
+            add_expense(expenses)
+        elif user_choice == '3':
+            total_income, total_expenses, remaining_balance = calculate_summary(incomes, expenses)
+            print("\nFinancial Summary:")
+            print("Total Income:", total_income)
+            print("Total Expenses:", total_expenses)
+            print("Remaining Balance:", remaining_balance)
+        elif user_choice == '4':
+            print("You are now exiting the program. Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please choose again.")
