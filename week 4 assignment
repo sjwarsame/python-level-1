@@ -1,0 +1,39 @@
+import hashlib
+
+print("Welcome to our simple voting system!")
+
+# Create an empty to dictionary to store votes
+votes = {}
+
+def hash_vote(vote):
+  # Hash the vote using SHA-256 algorithm
+  hashed_vote = hashlib.sha256(vote.encode()).hexdigest()
+  return hashed_vote
+
+#Main loop for the program
+while True:
+  
+  #Show the user a menu
+  action = input("Enter 'v' to vote for a candidate, enter 'r' to view voting results or 'q' to quit the program")
+  
+  #To vote
+  if action == 'v':
+    user_name = input("Please enter your name: ")
+    vote = input("Enter the candidate ID you wish to vote for: ")
+    secure_vote = hash_vote(vote)
+    votes[user_name] = secure_vote
+    print("Vote saved successfully!")
+  
+  #To view results  
+  elif action == 'r':
+    print("Here are the voting results.")
+    for candidate_id, vote_count in votes.items():
+      print(f"Voter {candidate_id}: {vote_count} votes")
+  
+  #To quit program
+  elif action == 'q':
+    print("Quitting program. Goodbye!")
+    break
+      
+  else: 
+    print("Please enter one of the following: v, r or q")
