@@ -1,0 +1,42 @@
+import datetime
+
+def add_errors():
+  date = input("Enter the date of the error (DD-MM-YY) or leave blank to use today's date")
+  if date == "":
+    date = datetime.date.today().strftime("%d-%m-%y")
+    error = input("Enter the error you want to enter: ")
+    with open("errorlog.txt", "a") as file:
+      file.write(f"{error} - {date}\n")
+    print("Error logged successfully!")
+  
+  
+def view_errors():
+  try:
+    with open ("errorlog.txt", "r") as file:
+      errors = file.readlines()
+      if errors:
+        for entry in errors:
+          print(errors.strip())
+      else:
+        print("No errors were found.")
+  
+  except FileNotFoundError:
+    print("No errors were found.")
+  
+while True:
+  print("\nMenu:")
+  print("1. Log an error")
+  print("2. View logged errors")
+  print("3. Quit")
+  
+  choice = input("Please choose the option that you want: ")
+  
+  if choice == "1":
+    add_errors()
+  elif choice == "2":
+    view_errors()
+  elif choice == "3":
+    print("You have chosen to Quit, Goodbye!")
+    break
+  else:
+    print("You have chosen a wrong number. Try again!")
