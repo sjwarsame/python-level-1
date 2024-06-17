@@ -55,7 +55,7 @@ def main():
         elif choice == '2':
             view_current_preferences(path)
         elif choice == '3':
-            print("Exiting preferences management system. Thank you!")
+            print("Exiting user preference manager. Thank you!")
             break
         else:
             print("Invalid option. Please choose 1, 2, or 3.")
