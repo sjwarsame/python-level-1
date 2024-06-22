@@ -1,0 +1,82 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+def create_excel_file(filename):
+    # Create a new Excel file with headers for attendance data
+    data = {
+        "Name": [],
+        "Date": [],
+        "Status": []
+    }
+    df = pd.DataFrame(data)
+    df.to_excel(filename, index=False)
+    print(f"Excel file '{filename}' created successfully.")
+
+def record_attendance(filename):
+    # Prompt the user to enter attendance details
+    name = input("Enter employee name: ")
+    date = input("Enter date (YYYY-MM-DD): ")
+    status = input("Enter attendance status (Present, Absent, Late): ")
+
+    # Load existing data from the Excel file
+    df = pd.read_excel(filename)
+
+    # Append the new attendance record
+    new_record = {"Name": name, "Date": date, "Status": status}
+    df = df.append(new_record, ignore_index=True)
+
+    # Save the updated data back to the Excel file
+    df.to_excel(filename, index=False)
+    print("Attendance recorded successfully!")
+
+def view_attendance_records(filename):
+    # Read and display all attendance records from the Excel file
+    df = pd.read_excel(filename)
+    print("Attendance Records:")
+    print(df)
+
+def visualize_attendance(filename):
+    # Read data from the Excel file
+    df = pd.read_excel(filename)
+
+    # Generate a simple bar chart showing attendance trends
+    attendance_counts = df['Status'].value_counts()
+    attendance_counts.plot(kind='bar', color=['green', 'red', 'orange'])
+    plt.title('Attendance Trends')
+    plt.xlabel('Attendance Status')
+    plt.ylabel('Count')
+    plt.show()
+
+def main():
+    filename = "attendance_data.xlsx"
+
+    # Try to read the Excel file; if it fails, create the file
+    try:
+        pd.read_excel(filename)
+    except FileNotFoundError:
+        create_excel_file(filename)
+
+    # Main program 
+    while True:
+        print("\nMenu:")
+        print("1. Record attendance")
+        print("2. View all attendance records")
+        print("3. Visualize attendance trends")
+        print("4. Quit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == '1':
+            record_attendance(filename)
+        elif choice == '2':
+            view_attendance_records(filename)
+        elif choice == '3':
+            visualize_attendance(filename)
+        elif choice == '4':
+            print("Exiting the program. Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+if __name__ == "__main__":
+    main()
