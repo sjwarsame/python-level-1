@@ -1,0 +1,50 @@
+import requests  # Importing the requests module to make HTTP requests
+import json  # Importing the json module to handle JSON data
+from datetime import datetime  # Importing datetime to get the current date and time
+
+def get_wikipedia_summary(topic):
+    # Constructing the URL to fetch Wikipedia summary based on the given topic
+    url = f"https://en.wikipedia.org/api/rest_v1/page/summary/{topic}"
+    # Making a GET request to fetch data from the URL
+    response = requests.get(url)
+    # Checking if the response status code is 200 (indicating success)
+    if response.status_code == 200:
+        # Extracting JSON data from the response
+        data = response.json()
+        # Extracting the summary text from the JSON data
+        summary = data.get("extract", "No summary available.")
+        return summary
+    else:
+        # Returning an error message if fetching information failed
+        return "Failed to fetch information. Please try again later."
+
+def save_summary_to_file(topic, summary):
+    # Generating a filename for the summary based on the topic and current date
+    date_str = datetime.now().strftime("%Y-%m-%d")
+    filename = f"{topic.replace(' ', '_')}-summary-{date_str}.txt"
+    # Opening a file in write mode to save the summary
+    try:
+        with open(filename, "w", encoding="utf-8") as f:
+            f.write(f"Topic: {topic}\n")
+            f.write(f"Date: {date_str}\n\n")
+            f.write(summary)
+        print(f"Summary saved to {filename}")
+    except Exception as e:
+        print(f"An error occurred while saving the file: {e}")
+
+def main():
+    # Printing a welcome message
+    print("Welcome to the Wikipedia Summary Fetcher!")
+    # Prompting the user to enter the topic they want to learn about
+    topic = input("Enter the topic you are interested in: ")
+    # Fetching the summary for the given topic
+    print("Fetching summary...")
+    summary = get_wikipedia_summary(topic)
+    # Displaying the summary to the user
+    print("\nSummary:")
+    print(summary)
+    # Saving the summary to a text file
+    save_summary_to_file(topic, summary)
+
+if __name__ == "__main__":
+    main()
